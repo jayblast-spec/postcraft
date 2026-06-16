@@ -1,6 +1,6 @@
 # PostCraft
 
-PostCraft is part of Joy Ogunleye's Creator / Founder Tools.
+PostCraft is part of ArkNet Digital's Creator / Founder Tools.
 
 ## Promise
 
