@@ -1,37 +1,38 @@
 # PostCraft
 
-PostCraft is part of ArkNet Digital's Creator / Founder Tools.
+PostCraft is an ArkNet Digital product in the Creator / Founder Tools.
 
 ## Promise
 
-turn raw ideas into platform-native posts with a point of view
+Turn founder lessons into posts people remember and share.
 
-## Built For
+PostCraft is a point-of-view engine for founders and creators who want proof-backed content, platform-native angles, and a publishing system that compounds over time.
 
-founders, creators, agencies, and build-in-public operators
+## Current v1
 
-## Product Modules
+- Bespoke product cockpit UI
+- Live product-specific intake
+- `POST /api/intelligence`
+- Product-specific scoring and action queue
+- Contributor mission lanes
+- Mobile-friendly layout
 
-- Hook generator
-- Narrative spine
-- Platform variants
-- Proof receipts
-- Publishing calendar
+## Contributor Missions
 
-## Open Source Direction
-
-This repo is open to contributors because strong ideas move faster when serious builders can inspect, improve, and extend them. The goal is not secrecy. The goal is speed, quality, and contribution.
-
-## First Workflow
-
-1. Enter real context.
-2. Generate a useful first output.
-3. Review risk, confidence, or next action.
-4. Save the result into product memory in a future paid workspace.
+- Voice memory: Learn the founder’s style without generic AI tone.
+- Proof attachment system: Add screenshots, commits, URLs, and metrics to posts.
+- Content calendar: Turn lessons into a weekly publishing rhythm.
+- Analytics feedback loop: Use performance to improve future angles.
 
 ## Run Locally
 
 ```bash
 npm install
 npm run dev
+```
+
+## Build
+
+```bash
+npm run build
 ```
