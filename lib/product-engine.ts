@@ -1,69 +1,94 @@
 export type IntelligenceInput = { input?: string };
-
 const product = {
   "repo": "PostCraft",
   "suite": "Creator / Founder Tools",
-  "category": "Content engine",
-  "audience": "founders, creators, agencies, and build-in-public operators",
-  "promise": "turn raw ideas into platform-native posts with a point of view",
-  "inputLabel": "Idea, lesson, or product update",
-  "placeholder": "We fixed our Forge quality gate so failures now become reusable lessons",
-  "primary": "Craft post",
-  "gradient": "from-pink-300 via-rose-300 to-orange-300",
+  "domain": "Distribution intelligence",
+  "accent": "from-pink-300 via-rose-300 to-orange-300",
+  "hero": "Turn founder lessons into posts people remember and share.",
+  "sub": "PostCraft is a point-of-view engine for founders and creators who want proof-backed content, platform-native angles, and a publishing system that compounds over time.",
+  "input": "Lesson: we stopped mass-deploying weak templates and rebuilt ExposureWatch as the flagship standard",
+  "cta": "Craft distribution pack",
+  "score": "Post strength",
   "modules": [
-    "Hook generator",
-    "Narrative spine",
-    "Platform variants",
-    "Proof receipts",
-    "Publishing calendar"
+    [
+      "Raw lesson capture",
+      "Extract the sharp truth from messy build notes."
+    ],
+    [
+      "Narrative spine",
+      "Create a beginning, tension, insight, and useful takeaway."
+    ],
+    [
+      "Platform variants",
+      "Shape LinkedIn, X, newsletter, and short-form versions."
+    ],
+    [
+      "Proof archive",
+      "Attach receipts, screenshots, URLs, and before/after evidence."
+    ]
   ],
-  "outputs": [
-    "LinkedIn post",
-    "X thread outline",
-    "CTA options",
-    "Repurpose plan"
+  "rows": [
+    [
+      "LinkedIn thesis",
+      "Authority",
+      "High",
+      "Explain the lesson with strategic weight and credibility."
+    ],
+    [
+      "X thread",
+      "Reach",
+      "Medium",
+      "Break the lesson into concise, repeatable points."
+    ],
+    [
+      "Newsletter note",
+      "Retention",
+      "Medium",
+      "Turn the build into an audience relationship asset."
+    ],
+    [
+      "Launch CTA",
+      "Conversion",
+      "High",
+      "Invite users or contributors into a concrete next step."
+    ]
   ],
-  "next": [
-    "voice memory",
-    "content calendar",
-    "analytics feedback loop",
-    "auto repurposing studio"
+  "missions": [
+    [
+      "Voice memory",
+      "Learn the founder’s style without generic AI tone."
+    ],
+    [
+      "Proof attachment system",
+      "Add screenshots, commits, URLs, and metrics to posts."
+    ],
+    [
+      "Content calendar",
+      "Turn lessons into a weekly publishing rhythm."
+    ],
+    [
+      "Analytics feedback loop",
+      "Use performance to improve future angles."
+    ]
   ]
 } as const;
-
-function score(text: string) {
-  const length = text.trim().length;
-  const diversity = new Set(text.toLowerCase().replace(/[^a-z0-9 ]/g, '').split(/\s+/).filter(Boolean)).size;
-  return Math.min(97, 48 + Math.floor(length / 7) + Math.min(28, diversity));
-}
-
+function scoreFor(subject: string) { let score = 57 + Math.min(30, Math.floor(subject.length / 6)); if (/risk|urgent|investor|client|payment|contract|meeting|decision|launch|proof|delay/i.test(subject)) score += 7; return Math.min(98, score); }
+function band(score: number) { return score >= 86 ? 'strong' : score >= 72 ? 'ready' : score >= 60 ? 'needs review' : 'starter'; }
 export function generateIntelligence({ input = '' }: IntelligenceInput) {
-  const subject = input.trim() || product.placeholder;
-  const confidence = score(subject);
-  const urgency = confidence > 82 ? 'high' : confidence > 66 ? 'medium' : 'starter';
+  const subject = input.trim() || product.input;
+  const score = scoreFor(subject);
   return {
     product: product.repo,
-    category: product.category,
+    brand: 'ArkNet Digital',
+    suite: product.suite,
+    domain: product.domain,
     subject,
-    confidence,
-    urgency,
-    executive_summary: product.promise,
-    immediate_outputs: product.outputs.map((output, index) => ({
-      title: output,
-      detail: output + ' for: ' + subject,
-      priority: index === 0 ? 'primary' : index === 1 ? 'supporting' : 'next'
-    })),
-    automation_plan: product.modules.map((module, index) => ({
-      stage: index + 1,
-      module,
-      value: 'Automate ' + module.toLowerCase() + ' so ' + product.audience + ' can move faster with less manual work.'
-    })),
-    future_addons: product.next.map((addon, index) => ({
-      name: addon,
-      horizon: index < 2 ? 'v2' : 'v3',
-      contributor_lane: index % 2 === 0 ? 'integration' : 'product intelligence'
-    })),
-    contributor_brief: 'Improve ' + product.repo + ' by making ' + product.category.toLowerCase() + ' easier for ' + product.audience + '.',
+    score,
+    status: band(score),
+    executive_summary: product.sub,
+    intelligence_map: product.modules.map(([label, value]) => ({ label, value, status: score >= 72 ? 'priority' : 'review' })),
+    action_queue: product.rows.slice(0, 3).map(([item, owner, priority, note]) => ({ action: item + ' - ' + owner, priority, impact: note })),
+    contributor_lanes: product.missions.map(([lane, mission]) => ({ lane, mission })),
     generated_at: new Date().toISOString()
   };
 }
