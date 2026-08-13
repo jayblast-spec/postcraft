@@ -1,16 +1,52 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, ReactNode, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { Tone, Platform, PostOutput } from "../api/post/route";
 
 type State = "idle" | "loading" | "error" | (PostOutput & { demo: boolean });
 
-const TONES: { id: Tone; label: string; icon: string; desc: string }[] = [
-  { id: "thought-leader", label: "Thought Leader", icon: "🔭", desc: "Challenge conventional wisdom" },
-  { id: "storyteller", label: "Storyteller", icon: "📖", desc: "Build emotional connection" },
-  { id: "data-driven", label: "Data-Driven", icon: "📊", desc: "Lead with evidence" },
-  { id: "contrarian", label: "Contrarian", icon: "⚡", desc: "Challenge the status quo" },
+const TONES: { id: Tone; label: string; icon: ReactNode; desc: string }[] = [
+  {
+    id: "thought-leader",
+    label: "Thought Leader",
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="10" cy="10" r="7" /><circle cx="10" cy="10" r="2.6" /><path d="M10 3v1.4M10 15.6V17M3 10h1.4M15.6 10H17" />
+      </svg>
+    ),
+    desc: "Challenge conventional wisdom",
+  },
+  {
+    id: "storyteller",
+    label: "Storyteller",
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M3 4.5c2-1 4.5-1 6.5.3 2-1.3 4.5-1.3 6.5-.3v11c-2-1-4.5-1-6.5.3-2-1.3-4.5-1.3-6.5-.3v-11z" />
+      </svg>
+    ),
+    desc: "Build emotional connection",
+  },
+  {
+    id: "data-driven",
+    label: "Data-Driven",
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 16V9M10 16V4M16 16v-6" />
+      </svg>
+    ),
+    desc: "Lead with evidence",
+  },
+  {
+    id: "contrarian",
+    label: "Contrarian",
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M11 2 4 11h5l-1 7 7-9h-5l1-7z" />
+      </svg>
+    ),
+    desc: "Challenge the status quo",
+  },
 ];
 
 const PLATFORMS: { id: Platform; label: string; color: string }[] = [
@@ -103,7 +139,7 @@ export default function PostForm() {
                     : "border-border bg-surface hover:border-accent/40"
                 }`}
               >
-                <span className="text-lg leading-none">{t.icon}</span>
+                <span className="leading-none">{t.icon}</span>
                 <div>
                   <p className={`text-sm font-semibold ${tone === t.id ? "text-accent" : "text-foreground"}`}>
                     {t.label}

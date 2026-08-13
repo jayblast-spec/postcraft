@@ -8,7 +8,7 @@ export default function HeroSection({ onTryClick }: { onTryClick: () => void }) 
   return (
     <section className="fire-bg dot-grid relative flex min-h-screen flex-col items-center justify-center px-4 text-center">
       <div className="pointer-events-none absolute right-0 top-0 h-96 w-96 rounded-full bg-accent/8 blur-[120px]" />
-      <div className="pointer-events-none absolute bottom-0 left-0 h-64 w-64 rounded-full bg-warm-pink/5 blur-[80px]" />
+      <div className="pointer-events-none absolute bottom-0 left-0 h-64 w-64 rounded-full bg-accent-2/5 blur-[80px]" />
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -22,7 +22,10 @@ export default function HeroSection({ onTryClick }: { onTryClick: () => void }) 
           transition={{ delay: 0.1 }}
           className="flex items-center gap-2 rounded-full border border-accent/30 bg-accent-soft px-4 py-1.5 text-xs font-semibold text-accent-2"
         >
-          <span>✍</span> AI-Powered Post Generator
+          <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M14.5 2.5l3 3L7 16 3 17l1-4L14.5 2.5z" />
+          </svg>
+          AI-Powered Post Generator
         </motion.div>
 
         <motion.h1
