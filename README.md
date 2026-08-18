@@ -33,9 +33,18 @@ PostCraft takes a topic and generates a post optimized separately for LinkedIn (
 ## How It Works
 
 - `app/page.tsx` renders the landing shell with `HeroSection`, `FeaturesSection`, and the `PostForm` input component.
-- `app/api/post/route.ts` sends the topic and selected tone/platform to the Groq Chat Completions API (`llama-3.3-70b-versatile`) and returns the generated post copy.
-- `app/api/intelligence/route.ts` provides a supporting formatting pass over the generated output.
+- `app/api/post/route.ts` sends the topic and selected tone/platform to the Groq Chat Completions API (`llama-3.3-70b-versatile`) and falls back to a pre-written demo post per tone/platform combination when no API key is set.
 - Styling is Tailwind CSS with Framer Motion handling interface transitions; the app is a single Next.js App Router deployment with no database layer.
+
+## Engineering Notes
+
+**The real problem:** "AI post generator" tools tend to produce one generic voice regardless of what you ask for — a LinkedIn post and an X post need different structure (long-form narrative vs. punchy hook), not just a shorter character count.
+
+**The approach:** tone and platform are separate, explicit prompt inputs rather than one blended setting, so a "storytelling" LinkedIn post and a "storytelling" X post are generated as genuinely different structures, not the same text truncated.
+
+**One real number:** demo fallbacks are pre-written per tone-per-platform combination (`Record<Tone, Record<Platform, PostOutput>>`) — every tone/platform pair has a real worked example, not one generic placeholder shown regardless of selection.
+
+**Not handled yet:** `app/api/intelligence` is a separate, disconnected decorative endpoint, not a real formatting pass on the generated post.
 
 ## Live
 
