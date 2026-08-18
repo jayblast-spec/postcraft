@@ -1,3 +1,5 @@
+import { completeWithFallback } from "@/lib/ai-fallback";
+
 export const maxDuration = 30;
 
 export type Tone = "thought-leader" | "storyteller" | "data-driven" | "contrarian";
@@ -192,12 +194,6 @@ export async function POST(request: Request) {
 
   if (!topic) return Response.json({ error: "Enter a topic or idea." }, { status: 400 });
 
-  const apiKey = process.env.GROQ_API_KEY;
-  if (!apiKey) {
-    await new Promise((r) => setTimeout(r, 1500));
-    return Response.json({ demo: true, ...DEMOS[tone][platform] });
-  }
-
   const charLimit = CHAR_LIMITS[platform];
   const platformNote = platform === "x" ? `Under ${charLimit} characters total. No hashtags in body — add at end only.` : `Up to ${charLimit} characters. Hashtags at the end.`;
 
@@ -214,32 +210,19 @@ Return ONLY valid JSON with these exact fields:
 No markdown fences. No explanation. Just the JSON.`;
 
   try {
-    const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "llama-3.3-70b-versatile",
-        messages: [
-          { role: "system", content: system },
-          { role: "user", content: `Topic: ${topic}` },
-        ],
-        temperature: 0.7,
-        max_tokens: 800,
-      }),
-    });
-
-    if (!res.ok) return Response.json({ error: "AI unavailable. Try again shortly." }, { status: 502 });
-
-    const data = await res.json();
-    const raw = data?.choices?.[0]?.message?.content ?? "";
+    const { content: raw } = await completeWithFallback(system, `Topic: ${topic}`, { temperature: 0.7, maxTokens: 800 });
     let result: PostOutput;
     try {
       result = JSON.parse(raw) as PostOutput;
     } catch {
-      return Response.json({ error: "AI returned an unexpected response." }, { status: 500 });
+      const jsonMatch = raw.match(/\{[\s\S]*\}/);
+      if (!jsonMatch) throw new Error("no JSON in response");
+      result = JSON.parse(jsonMatch[0]) as PostOutput;
     }
     return Response.json({ demo: false, ...result });
-  } catch {
-    return Response.json({ error: "Something went wrong. Try again shortly." }, { status: 502 });
+  } catch (err) {
+    console.error("completeWithFallback failed:", err instanceof Error ? err.message : err);
+    await new Promise((r) => setTimeout(r, 1500));
+    return Response.json({ demo: true, ...DEMOS[tone][platform] });
   }
 }
