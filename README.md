@@ -7,7 +7,6 @@
 PostCraft turns a topic into a scroll-stopping LinkedIn or X post across four tone modes — Professional, Casual, Storytelling, and Controversial — with platform-specific formatting and a hook-first structure. No signup, no paywall, no per-post limit.
 
 <p>
-  <a href="https://postcraft-one.vercel.app"><img alt="Live Demo" src="https://img.shields.io/badge/Live-Demo-1D4ED8?style=for-the-badge&logo=vercel&logoColor=white"></a>
   <a href="https://github.com/jayblast-spec/postcraft"><img alt="GitHub Repo" src="https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github&logoColor=white"></a>
 </p>
 
@@ -48,7 +47,7 @@ PostCraft takes a topic and generates a post optimized separately for LinkedIn (
 
 ## Live
 
-[postcraft-one.vercel.app](https://postcraft-one.vercel.app)
+*(demo temporarily offline)*
 
 ## Tech Stack
 
